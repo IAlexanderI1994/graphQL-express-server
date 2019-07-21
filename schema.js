@@ -1,3 +1,5 @@
+const axios = require('axios')
+
 const {
         GraphQLObjectType,
         GraphQLString,
@@ -7,23 +9,31 @@ const {
         GraphQLNonNull,
       } = require('graphql')
 
-const customers = [
-  { id: '1', name: 'Alex', email: 'alex@ya,ru', age: 27 },
-  { id: '2', name: 'Brad', email: 'Brad@ya,ru', age: 22 },
-  { id: '3', name: 'John', email: 'jj@ya,ru', age: 35 }
-]
-// root query
-
+// customers
 const CustomerType = new GraphQLObjectType({
   name: 'Customer',
   fields: () => ({
-    id: { type: GraphQLString },
-    name: { type: GraphQLString },
-    email: { type: GraphQLString },
-    age: { type: GraphQLInt },
+    id: {
+      type: GraphQLString,
+      resolve: (customer) => customer.id
+    },
+    name: {
+      type: GraphQLString,
+      resolve: (customer) => customer.name
+    },
+    email: {
+      type: GraphQLString,
+      resolve: (customer) => customer.email
+    },
+    age: {
+      type: GraphQLInt,
+      resolve: (customer) => customer.age
+    },
 
   })
 })
+
+// root query
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -33,14 +43,16 @@ const RootQuery = new GraphQLObjectType({
       args: {
         id: { type: GraphQLString }
       },
-      resolve (parentValue, args) {
+      resolve: (parentValue, args) => axios
+        .get(`http://localhost:3000/customers/${args.id}`)
+        .then(({ data }) => data)
 
-        return customers.find(customer => customer.id === args.id) || null
-
-      }
+    },
+    customers: {
+      type: new GraphQLList(CustomerType),
+      resolve: (parentValue, args) => axios.get(`http://localhost:3000/customers/`).then(({ data }) => data)
     }
   }
-
 
 })
 
