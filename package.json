@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "dev:server": "nodemon server.js",
-    "json:server": "json-server --watch data.json"
+    "json:server": "json-server --watch data.json",
+    "dev": "concurrently  \"npm run dev:server\" \"npm run json:server\""
 
   },
   "keywords": [],

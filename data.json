@@ -8,15 +8,21 @@
     },
     {
       "id": "2",
-      "name": "Brad",
+      "name": "Hall Jordan",
       "email": "Brad@ya,ru",
-      "age": 22
+      "age": 50
     },
     {
       "id": "3",
       "name": "John",
       "email": "jj@ya,ru",
       "age": 35
+    },
+    {
+      "name": "Vasya",
+      "email": "test@ya.ru",
+      "age": 15,
+      "id": "GjE2dU7"
     }
   ]
 }
